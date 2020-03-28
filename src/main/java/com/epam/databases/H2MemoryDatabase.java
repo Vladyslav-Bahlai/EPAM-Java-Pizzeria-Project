@@ -10,10 +10,11 @@ public class H2MemoryDatabase {
     private static String DB_USER = "";
     private static String DB_PASSWORD = "";
 
-    public static void createWithPreparedStatement(String createQuery)
+    public static void createWithPreparedStatement()
             throws SQLException {
         Connection connection = getDBConection();
         PreparedStatement createPreparedStatement = null;
+        String createQuery = "CREATE TABLE PERSON(id int primary key, name varchar(255))";
 
         try{
             connection.setAutoCommit(false);
@@ -33,16 +34,17 @@ public class H2MemoryDatabase {
 
     }
 
-    public static void insertWithPreparedStatement(String insertQuery)
+    public static void insertWithPreparedStatement(int id, String name)
             throws SQLException {
         Connection connection = getDBConection();
         PreparedStatement insertPreparedStatement = null;
+        String insertQuery = "INSERT INTO PERSON" + "(id, name) values" + "(?,?)";
 
         try{
             connection.setAutoCommit(false);
             insertPreparedStatement = connection.prepareStatement(insertQuery);
-            insertPreparedStatement.setInt(1, 1);
-            insertPreparedStatement.setString(2, "Vlad");
+            insertPreparedStatement.setInt(1, id);
+            insertPreparedStatement.setString(2, name);
             insertPreparedStatement.executeUpdate();
             insertPreparedStatement.close();
 
@@ -56,10 +58,11 @@ public class H2MemoryDatabase {
         }
     }
 
-    public static void selectWithPreparedStatement(String selectQuery)
+    public static void selectWithPreparedStatement()
             throws SQLException {
         Connection connection = getDBConection();
         PreparedStatement selectPreparedStatement = null;
+        String selectQuery = "select * from PERSON";
 
         try {
             connection.setAutoCommit(false);
