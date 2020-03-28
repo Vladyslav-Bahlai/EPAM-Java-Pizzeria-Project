@@ -8,8 +8,8 @@ import java.sql.SQLException;
 public class H2MemoryDatabase {
     private static String DB_DRIVER = "org.h2.Driver";
     private static String DB_CONNECTION = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-    private static String DB_USER = "root";
-    private static String DB_PASSWORD = "root";
+    private static String DB_USER = "";
+    private static String DB_PASSWORD = "";
 
     public static void createWithPreparedStatement(String createQuery)
             throws SQLException {
