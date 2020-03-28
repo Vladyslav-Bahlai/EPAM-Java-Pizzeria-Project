@@ -1,9 +1,8 @@
 package com.epam.databases;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.h2.tools.Server;
+
+import java.sql.*;
 
 public class H2MemoryDatabase {
     private static String DB_DRIVER = "org.h2.Driver";
@@ -57,6 +56,30 @@ public class H2MemoryDatabase {
         }
     }
 
+    public static void selectWithPreparedStatement(String selectQuery)
+            throws SQLException {
+        Connection connection = getDBConection();
+        PreparedStatement selectPreparedStatement = null;
+
+        try {
+            connection.setAutoCommit(false);
+            selectPreparedStatement = connection.prepareStatement(selectQuery);
+            ResultSet resultSet = selectPreparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                System.out.println(
+                        "Id: " + resultSet.getInt("id") +
+                        " Name: " + resultSet.getString("name"));
+            }
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            connection.close();
+        }
+    }
+
     private static Connection getDBConection(){
         Connection dbConnection = null;
 
@@ -80,5 +103,11 @@ public class H2MemoryDatabase {
         }
 
         return dbConnection;
+    }
+
+    public static void openServerModeInBrowser() throws SQLException {
+        Server server = Server.createTcpServer().start();
+        System.out.println("Server started and connection is open.");
+        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
     }
 }
