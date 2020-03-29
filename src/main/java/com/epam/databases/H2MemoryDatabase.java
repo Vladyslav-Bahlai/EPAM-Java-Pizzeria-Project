@@ -5,14 +5,11 @@ import org.h2.tools.Server;
 import java.sql.*;
 
 public class H2MemoryDatabase {
-    private static String DB_DRIVER = "org.h2.Driver";
-    private static String DB_CONNECTION = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-    private static String DB_USER = "";
-    private static String DB_PASSWORD = "";
+
 
     public static void createWithPreparedStatement()
             throws SQLException {
-        Connection connection = getDBConection();
+        Connection connection = ConnectToDatabase.createConnection();
         PreparedStatement createPreparedStatement = null;
         String createQuery = "CREATE TABLE PERSON(id int primary key, name varchar(255))";
 
@@ -36,7 +33,7 @@ public class H2MemoryDatabase {
 
     public static void insertWithPreparedStatement(int id, String name)
             throws SQLException {
-        Connection connection = getDBConection();
+        Connection connection = ConnectToDatabase.createConnection();
         PreparedStatement insertPreparedStatement = null;
         String insertQuery = "INSERT INTO PERSON" + "(id, name) values" + "(?,?)";
 
@@ -60,7 +57,7 @@ public class H2MemoryDatabase {
 
     public static void selectWithPreparedStatement()
             throws SQLException {
-        Connection connection = getDBConection();
+        Connection connection = ConnectToDatabase.createConnection();
         PreparedStatement selectPreparedStatement = null;
         String selectQuery = "select * from PERSON";
 
@@ -81,36 +78,5 @@ public class H2MemoryDatabase {
         } finally {
             connection.close();
         }
-    }
-
-    private static Connection getDBConection(){
-        Connection dbConnection = null;
-
-        // registering the JDBC database driver.
-        try{
-            Class.forName(DB_DRIVER);
-        } catch (ClassNotFoundException e){
-            System.out.println(e.getMessage());
-        }
-
-        // opening a connection to DB
-        try{
-            dbConnection = DriverManager.getConnection(
-                    DB_CONNECTION,
-                    DB_USER,
-                    DB_PASSWORD);
-
-            return dbConnection;
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-        return dbConnection;
-    }
-
-    public static void openServerModeInBrowser() throws SQLException {
-        Server server = Server.createTcpServer().start();
-        System.out.println("Server started and connection is open.");
-        System.out.println("URL: jdbc:h2:" + server.getURL() + "/mem:test");
     }
 }
