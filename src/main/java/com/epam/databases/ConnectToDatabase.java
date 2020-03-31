@@ -4,12 +4,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Allows to create a connection to a database which is described in static fields
+ * <code>DB_DRIVER</code>
+ * <code>DB_CONNECTION</code>
+ * <code>DB_USER</code>
+ * <code>DB_PASSWORD</code>
+ */
 public class ConnectToDatabase {
-    private static String DB_DRIVER = "org.h2.Driver";
-    private static String DB_CONNECTION = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-    private static String DB_USER = "";
-    private static String DB_PASSWORD = "";
+    private static final String DB_DRIVER = "org.h2.Driver";
+    private static final String DB_CONNECTION = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
+    private static final String DB_USER = "";
+    private static final String DB_PASSWORD = "";
 
+    /**
+     * Creates a connection to database and returns it
+     *
+     * @return Connection object to database or null if something went wrong
+     */
     public static Connection createConnection(){
         Connection dbConnection = null;
 

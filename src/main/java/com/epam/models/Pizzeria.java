@@ -4,16 +4,16 @@ import java.util.List;
 
 public class Pizzeria {
     private int id;
-    private String adress;
+    private String address;
     private String workingHours;
     private List<Employee> employeeList;
     private List<Product> productList;
 
     public Pizzeria() { }
 
-    public Pizzeria(int id, String adress, String workingHours) {
+    public Pizzeria(int id, String address, String workingHours) {
         this.id = id;
-        this.adress = adress;
+        this.address = address;
         this.workingHours = workingHours;
     }
 
@@ -25,12 +25,12 @@ public class Pizzeria {
         this.id = id;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getWorkingHours() {
@@ -61,7 +61,7 @@ public class Pizzeria {
     public String toString() {
         return "Pizzeria{" +
                 "id=" + id +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", workingHours='" + workingHours + '\'' +
                 ", employeeList=" + employeeList +
                 ", productList=" + productList +

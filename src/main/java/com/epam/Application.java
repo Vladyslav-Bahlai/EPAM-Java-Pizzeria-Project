@@ -1,5 +1,6 @@
 package com.epam;
 
+import com.epam.dao.PizzeriaDaoImpl;
 import com.epam.databases.H2MemoryDatabase;
 import com.epam.models.Person;
 
@@ -18,15 +19,8 @@ public class Application {
             personList.add(new Person(5, "Krista"));
         }
 
-        H2MemoryDatabase.createWithPreparedStatement();
-
-        for (Person person : personList) {
-            H2MemoryDatabase.insertWithPreparedStatement(
-                    person.getId(),
-                    person.getName());
-        }
-
-        H2MemoryDatabase.selectWithPreparedStatement();
+        PizzeriaDaoImpl pizzeriaDao = new PizzeriaDaoImpl();
+        pizzeriaDao.createPizzeriaTable();
 
         System.out.println("Successful db operations");
     }

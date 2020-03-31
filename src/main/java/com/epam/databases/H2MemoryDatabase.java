@@ -6,7 +6,6 @@ import java.sql.*;
 
 public class H2MemoryDatabase {
 
-
     public static void createWithPreparedStatement()
             throws SQLException {
         Connection connection = ConnectToDatabase.createConnection();
