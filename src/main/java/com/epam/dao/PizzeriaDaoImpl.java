@@ -2,10 +2,9 @@ package com.epam.dao;
 
 
 import com.epam.databases.ConnectToDatabase;
+import com.epam.exceptions.DataIsMissingException;
 import com.epam.models.Pizzeria;
-import com.sun.istack.internal.NotNull;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +14,9 @@ import java.util.List;
  * to do CRUD operations on <code>Pizzeria</code> class
  */
 public class PizzeriaDaoImpl implements PizzeriaDao{
-    private final String createQuery = "CREATE TABLE PIZZERIA(id int primary key, " +
+    private final String createQuery = "CREATE TABLE PIZZERIA(id IDENTITY NOT NULL PRIMARY KEY, " +
             "address varchar(255), workingHours varchar(255))";
-    private final String insertQuery = "INSERT INTO PIZZERIA" + "(id, address, workingHours) values" + "(?,?,?)";
+    private final String insertQuery = "INSERT INTO PIZZERIA" + "(address, workingHours) values" + "(?,?)";
     private final String getbyIdQuery = "SELECT * FROM PIZZERIA WHERE id=?";
     private final String getAllQuery = "SELECT * FROM PIZZERIA";
     private final String updateQuery = "UPDATE PIZZERIA SET adress=?, workingHours=? WHERE id=?";
@@ -46,9 +45,8 @@ public class PizzeriaDaoImpl implements PizzeriaDao{
 
         if (connection != null){
             try (PreparedStatement insertPreparedStatement = connection.prepareStatement(insertQuery)) {
-                insertPreparedStatement.setInt(1, pizzeria.getId());
-                insertPreparedStatement.setString(2, pizzeria.getAddress());
-                insertPreparedStatement.setString(3, pizzeria.getWorkingHours());
+                insertPreparedStatement.setString(1, pizzeria.getAddress());
+                insertPreparedStatement.setString(2, pizzeria.getWorkingHours());
                 insertPreparedStatement.executeUpdate();
             } catch (SQLException e){
                 System.out.println(e.getMessage());
@@ -72,14 +70,16 @@ public class PizzeriaDaoImpl implements PizzeriaDao{
                 try (ResultSet resultSet = getByIdPreparedStatement.executeQuery()) {
                     pizzeria = new Pizzeria();
 
-                    while (resultSet.next()) {
+                    if (resultSet.next()) {
                         pizzeria.setId(resultSet.getInt(1));
                         pizzeria.setAddress(resultSet.getString(2));
                         pizzeria.setWorkingHours(resultSet.getString(3));
+                    } else {
+                        throw new DataIsMissingException("Pizzeria by given id doesn't exist");
                     }
                 }
-            } catch (SQLException e){
-                e.getMessage();
+            } catch (SQLException | DataIsMissingException e){
+                System.out.println(e.getMessage());
             } finally {
                 closeConnection(connection);
             }

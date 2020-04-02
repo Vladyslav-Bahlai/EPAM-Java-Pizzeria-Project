@@ -11,8 +11,7 @@ public class Pizzeria {
 
     public Pizzeria() { }
 
-    public Pizzeria(int id, String address, String workingHours) {
-        this.id = id;
+    public Pizzeria(String address, String workingHours) {
         this.address = address;
         this.workingHours = workingHours;
     }
