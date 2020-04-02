@@ -1,5 +1,7 @@
 package com.epam.servlets;
 
+import com.epam.dao.PizzeriaDaoImpl;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,17 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/TestServlet")
+@WebServlet(name = "/TestServlet", urlPatterns = "/*")
 public class TestServlet extends HttpServlet {
+
+    private final PizzeriaDaoImpl pizzeriaDao = new PizzeriaDaoImpl();
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response){
+
+    }
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h3>Hello, Vlad</h3>");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        processRequest(req, resp);
     }
 }
