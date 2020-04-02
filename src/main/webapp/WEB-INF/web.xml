@@ -6,15 +6,4 @@
 
     <display-name>Pizzeria project</display-name>
 
-    <servlet>
-        <servlet-name>testServlet</servlet-name>
-        <servlet-class>com.epam.servlets.TestServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>testServlet</servlet-name>
-        <url-pattern>/*</url-pattern>
-    </servlet-mapping>
-
 </web-app>
